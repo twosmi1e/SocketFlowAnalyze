@@ -1,6 +1,8 @@
 import struct
 import os
 import socket
+import argparse
+from argparse import RawTextHelpFormatter
 
 
 def init_socket(nic):
@@ -117,3 +119,30 @@ def compute_checksum(data):
     bytes_checksum = struct.pack('!H', checksum)
 
     return bytes_checksum
+
+
+def parse_args():
+    description = u"Description:\n    Socket Flow Analyze Tool By twosmi1e"
+    """
+    usage = "\n    python3 sniffer.py ip   # 监听指定IP\n" \
+            "--------------------------------------------------------------------------------"
+    """
+    usage = '''\n     python3 sniffer.py ip   # 监听指定IP\n
+    --------------------------------------------------------------------------------
+        '''
+    parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter, description=description, usage=usage)
+
+    parser.add_argument('-t', '--target', help="ip of listen", required=True, default=False)
+
+
+    arguments = parser.parse_args()
+
+    return arguments
+
+if __name__ == "__main__":
+    arguments = parse_args()
+    ip = arguments.ip
+    listen_socket = init_socket(ip)
+
+
+
